@@ -1,4 +1,4 @@
-name: kotlin-ci
+name: Kotlin CI
 
 on:
   - push
