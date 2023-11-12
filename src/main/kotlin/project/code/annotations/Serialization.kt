@@ -1,0 +1,3 @@
+package project.code.annotations
+
+interface CborSerializable
