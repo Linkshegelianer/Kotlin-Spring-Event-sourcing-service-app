@@ -2,13 +2,13 @@ package project.code.message
 
 import project.code.annotations.CborSerializable
 
-enum class StudentActionType {
+enum class ObjectActionType {
     ADD,
     DELETE
 }
 
-data class StudentActionMessage(
+data class ObjectActionMessage(
     val className: String,
-    val studentName: String,
-    val actionType: StudentActionType
+    val objectName: String,
+    val actionType: ObjectActionType
 ) : CborSerializable

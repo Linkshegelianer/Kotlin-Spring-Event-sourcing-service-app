@@ -4,5 +4,5 @@ import project.code.annotations.CborSerializable
 
 data class ClassState(
     val name: String,
-    val students: MutableSet<String> = mutableSetOf()
+    val objects: MutableSet<String> = mutableSetOf()
 ): CborSerializable

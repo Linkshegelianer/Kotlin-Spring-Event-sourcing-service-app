@@ -5,8 +5,8 @@ import project.code.annotations.CborSerializable
 
 interface ClassCommand: CborSerializable
 
-abstract class StudentClassCommand(val studentName: String) : ClassCommand
+abstract class ObjectClassCommand(val objectName: String) : ClassCommand
 
-class AddStudentCommand(studentName: String) : StudentClassCommand(studentName)
-class DeleteStudentCommand(studentName: String) : StudentClassCommand(studentName)
-class GetAllStudentsCommand(val replyTo: ActorRef<ClassState>): ClassCommand
+class AddObjectCommand(objectName: String) : ObjectClassCommand(objectName)
+class DeleteObjectCommand(objectName: String) : ObjectClassCommand(objectName)
+class GetAllObjectsCommand(val replyTo: ActorRef<ClassState>): ClassCommand

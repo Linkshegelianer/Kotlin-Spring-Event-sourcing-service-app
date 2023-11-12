@@ -6,14 +6,14 @@ interface ClassEvent : CborSerializable {
     fun applyTo(classState: ClassState): ClassState
 }
 
-data class AddStudentEvent(val studentName: String) : ClassEvent {
+data class AddObjectEvent(val objectName: String) : ClassEvent {
     override fun applyTo(classState: ClassState) = classState.apply {
-        classState.students.add(studentName)
+        classState.objects.add(objectName)
     }
 }
 
-data class DeleteStudentEvent(val studentName: String) : ClassEvent {
+data class DeleteObjectEvent(val objectName: String) : ClassEvent {
     override fun applyTo(classState: ClassState) = classState.apply {
-        classState.students.remove(studentName)
+        classState.objects.remove(objectName)
     }
 }

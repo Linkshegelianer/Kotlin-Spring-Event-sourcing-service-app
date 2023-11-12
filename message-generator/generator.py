@@ -45,7 +45,7 @@ def main():
     publisher = Publisher(config)
 
     classes = ['class-' + str(i) for i in range(100)]
-    student = 'student'
+    object = 'object'
     action_add = 'ADD'
     action_delete = 'DELETE'
 
@@ -59,7 +59,7 @@ def main():
             message = {
                 'className': clazz,
                 'actionType': action,
-                'studentName': student
+                'objectName': object
             }
             publisher.publish(message)
 

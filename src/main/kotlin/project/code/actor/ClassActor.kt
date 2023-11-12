@@ -9,8 +9,6 @@ import akka.persistence.typed.PersistenceId
 import akka.persistence.typed.javadsl.*
 import project.code.model.*
 import project.code.props.EventSourcingProperties
-import project.code.model.*
-import project.code.model.*
 import java.time.Duration
 
 class ClassActor(
@@ -46,22 +44,22 @@ class ClassActor(
     override fun commandHandler(): CommandHandler<ClassCommand, ClassEvent, ClassState> =
         newCommandHandlerBuilder()
             .forAnyState()
-            .onCommand(AddStudentCommand::class.java, this::addStudent)
-            .onCommand(DeleteStudentCommand::class.java, this::deleteStudent)
-            .onCommand(GetAllStudentsCommand::class.java, this::getState)
+            .onCommand(AddObjectCommand::class.java, this::addObject)
+            .onCommand(DeleteObjectCommand::class.java, this::deleteObject)
+            .onCommand(GetAllObjectsCommand::class.java, this::getState)
             .build()
 
-    private fun addStudent(command: AddStudentCommand): Effect<ClassEvent, ClassState> = AddStudentEvent(command.studentName).let {
+    private fun addObject(command: AddObjectCommand): Effect<ClassEvent, ClassState> = AddObjectEvent(command.objectName).let {
         Effect()
             .persist(it)
     }
 
-    private fun deleteStudent(command: DeleteStudentCommand): Effect<ClassEvent, ClassState> = DeleteStudentEvent(command.studentName).let {
+    private fun deleteObject(command: DeleteObjectCommand): Effect<ClassEvent, ClassState> = DeleteObjectEvent(command.objectName).let {
         Effect()
             .persist(it)
     }
 
-    private fun getState(command: GetAllStudentsCommand): Effect<ClassEvent, ClassState> = Effect()
+    private fun getState(command: GetAllObjectsCommand): Effect<ClassEvent, ClassState> = Effect()
         .none()
         .thenRun<ClassState> { newState -> command.replyTo.tell(newState) }
 

@@ -2,7 +2,7 @@ package project.code.rabbitmq
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import project.code.message.StudentActionMessage
+import project.code.message.ObjectActionMessage
 import project.code.service.ClassService
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
@@ -15,9 +15,9 @@ class RabbitMqListener(
 
     @RabbitListener(queues = ["test_queue"])
     fun listen(messagePayload: String) {
-        messagePayload.parseToStudentActionMessage().also { classService.applyStudentAction(it) }
+        messagePayload.parseToObjectActionMessage().also { classService.applyObjectAction(it) }
     }
 
-    private fun String.parseToStudentActionMessage(): StudentActionMessage = objectMapper.readValue(this)
+    private fun String.parseToObjectActionMessage(): ObjectActionMessage = objectMapper.readValue(this)
 
 }

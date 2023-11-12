@@ -7,25 +7,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v2
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v1
         with:
-          java-version: '20'
-          distribution: 'temurin'
-
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
-
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
+          java-version: 1.11
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
         with:
-          arguments: build
-          gradle-version: 8.2
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
 
-      - run: chmod +x gradlew
-      - run: make build
-      - run: make test
+      - name: Build Project
+        run: ./gradlew clean build --parallel --info
 
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.2.0
@@ -33,5 +30,5 @@ jobs:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           JACOCO_SOURCE_PATH: src/main/kotlin
         with:
-          coverageCommand: make test-report
+          coverageCommand: ./gradlew jacocoTestReport
           coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
