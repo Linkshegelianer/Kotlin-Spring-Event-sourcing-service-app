@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.5.4"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.5.31"
     kotlin("plugin.spring") version "1.5.21"
     id("com.google.cloud.tools.jib") version "3.1.4"
 }
@@ -48,39 +48,10 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
-    }
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-jib {
-    from {
-        platforms {
-            platform {
-                architecture = "arm64"
-                os = "linux"
-            }
-
-            platform {
-                architecture = "amd64"
-                os = "linux"
-            }
-        }
-    }
-    to {
-        auth {
-            username = System.getenv("DOCKER_HUB_USER_NAME")
-            password = System.getenv("DOCKER_HUB_PASSWORD")
-        }
-        image = "project/code"
-
-        val tagNameEnv = System.getenv("TAG_NAME")
-        tags = if (tagNameEnv.isNullOrBlank()) setOf("develop") else setOf(tagNameEnv, "latest")
-    }
 }
